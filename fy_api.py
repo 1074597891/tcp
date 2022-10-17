@@ -7,6 +7,10 @@ import urllib.parse
 import urllib.request
 
 
+import ocr
+
+
+
 def baiduTranslate(translate_text, flag=1):
     '''
     :param translate_text: 待翻译的句子，len(q)<2000
@@ -62,7 +66,8 @@ if __name__ == '__main__':
     flag=1 输入的句子翻译成英文
     flag=0 输入的句子翻译成中文
     '''
-    
-    result = baiduTranslate(q, flag=1)  # 百度翻译
+    ocr.baiduOCR('screen.png')
+    q = ocr.baiduOCR('screen.png')
+    result = baiduTranslate(q, flag=0)  # 百度翻译
     print("原句:" + q)
     print(result)
