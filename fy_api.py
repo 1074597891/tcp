@@ -8,7 +8,9 @@ import urllib.request
 
 
 import ocr
+import os
 
+import teshujian
 
 
 def baiduTranslate(translate_text, flag=1):
@@ -46,6 +48,7 @@ def baiduTranslate(translate_text, flag=1):
         # response是HTTPResponse对象
         response = httpClient.getresponse()
         result_all = response.read().decode("utf-8")
+        json.loads(result_all)
         result = json.loads(result_all)
 
         # return result
@@ -58,16 +61,28 @@ def baiduTranslate(translate_text, flag=1):
             httpClient.close()
 
 
+def fy():
+    while True:
+        # 手动录入翻译内容，q存放
+        q = "介绍一下整本书，比如是传主的人生，或者作者写这本书的特色。可参看目录、序言或简介等资料。"
+        '''
+        flag=1 输入的句子翻译成英文
+        flag=0 输入的句子翻译成中文
+        '''
+        if os.path.exists('screen.png'):
+            q = ocr.baiduOCR('screen.png')
+        else:
+            q = teshujian.ky()
+        result = baiduTranslate(q, flag=0)  # 百度翻译
+        # print("原句:" + q)
+        # print(result)
+        if os.path.exists('screen.png'):
+            os.remove(rf"./screen.png")
+        # en: work, ch: 1236
+        msg = ("en" + ":" + q + "," + "ch" + ":" + result)
+        print(msg)
+        return msg
+
+
 if __name__ == '__main__':
-    # 手动录入翻译内容，q存放
-    # q = raw_input("please input the word you want to translate:")
-    q = "介绍一下整本书，比如是传主的人生，或者作者写这本书的特色。可参看目录、序言或简介等资料。"
-    '''
-    flag=1 输入的句子翻译成英文
-    flag=0 输入的句子翻译成中文
-    '''
-    ocr.baiduOCR('screen.png')
-    q = ocr.baiduOCR('screen.png')
-    result = baiduTranslate(q, flag=0)  # 百度翻译
-    print("原句:" + q)
-    print(result)
+    fy()
