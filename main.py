@@ -1,5 +1,4 @@
 import socket
-import time
 
 import fy_api
 
@@ -16,19 +15,8 @@ client_socket, address = socket_server.accept()
 
 # while循环是为了让对话持续
 while True:
-    # 接收客户端的请求
-    recvmsg = client_socket.recv(1024)
-    # 把接收到的数据进行解码
-    strData = recvmsg.decode("GBK")
-    # 设置退出条件
-    if strData == 'q':
-        break
-    print("接收: %s" % strData)
-    # 输入
-
     # msg = input("发送: ")
     # 发送数据，需要进行编码
-    fy_api.fy()
     msg = fy_api.fy()
     client_socket.send(msg.encode("UTF-8"))
 # 关闭服务器端
